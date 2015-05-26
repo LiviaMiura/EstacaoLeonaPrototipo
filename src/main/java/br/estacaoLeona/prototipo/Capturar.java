@@ -39,6 +39,12 @@ class Capturar extends Thread {
 
         this.estacaoForm = estacaoForm;
     }
+ private final static String FORMAT_CTRL = "javax.media.control.FormatControl";
+
+    /**
+     * Control to grab frames.
+     */
+    private final static String GRABBING_CTRL = "javax.media.control.FrameGrabbingControl";
 
     @Override
     public void run() {
@@ -67,7 +73,7 @@ class Capturar extends Thread {
                 BufferToImage bti = new BufferToImage((VideoFormat) buffer.getFormat());
                 Image image = bti.createImage(buffer);
                 bi = (BufferedImage) image;
-                //agora = LocalDateTime.now();
+               
                 Date date1 = new Date(System.currentTimeMillis());
                 SimpleDateFormat hora = new SimpleDateFormat("HH mm ss");
 
