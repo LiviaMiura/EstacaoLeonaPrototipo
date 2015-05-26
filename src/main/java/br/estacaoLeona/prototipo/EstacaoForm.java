@@ -19,7 +19,8 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author leonaLenovo
+ * @author leonaLenovo alterada 
+ * by livia miura
  */
 public class EstacaoForm extends javax.swing.JFrame {
 
