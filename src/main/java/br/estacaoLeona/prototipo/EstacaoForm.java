@@ -14,19 +14,16 @@ import javax.media.Manager;
 import javax.media.MediaLocator;
 import javax.media.NoPlayerException;
 import javax.media.Player;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
  *
- * @author leonaLenovo alterada 
- * by livia miura
+ * @author leonaLenovo alterada by livia miura
  */
 public class EstacaoForm extends javax.swing.JFrame {
 
     Arduino arduino = new Arduino();
     Capturar capturar;
-    Player player, player2;
+    Player player;
     String nfile;
     BufferedImage bi;
 
@@ -37,7 +34,6 @@ public class EstacaoForm extends javax.swing.JFrame {
         initComponents();
         try {
             initCamera();
-            initCamera2();
         } catch (IOException | NoPlayerException | CannotRealizeException ex) {
             Logger.getLogger(EstacaoForm.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -74,12 +70,6 @@ public class EstacaoForm extends javax.swing.JFrame {
         tbCamera.setText("jToggleButton1");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pantilt Settings", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 1, 14), new java.awt.Color(102, 102, 102))); // NOI18N
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TextoGrausPantilt(evt);
-            }
-        });
 
         jButton1.setText("Reset Pan");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -307,48 +297,17 @@ public class EstacaoForm extends javax.swing.JFrame {
     private void initCamera() throws IOException, NoPlayerException, CannotRealizeException {
         System.out.println("***************Inciar as  Cameras*****************");
         MediaLocator m1 = new MediaLocator("vfw://0");
-        MediaLocator m2 = new MediaLocator("vfw://0");
         player = Manager.createRealizedPlayer(m1);
-        //  player2 = Manager.createRealizedPlayer(m2);
-
         this.tbCamera.add(player.getVisualComponent());
-        // this.tbCamera2.add(player.getVisualComponent());
-
-        /*  Webcam buildin = Webcam.getWebcams().get(0); // build-in laptop camera
-         Webcam usb = Webcam.getWebcams().get(1); // usb camera
-         BufferedImage image1 = buildin.getImage();
-         BufferedImage image2 = usb.getImage();
-         */
-        player.start();
-        // player2.start();
-        System.out.println("");
-
-    }
-
-    private void initCamera2() throws IOException, NoPlayerException, CannotRealizeException {
-        System.out.println("***************Inciar as  Cameras*****************");
-
-        MediaLocator m2 = new MediaLocator("vfw://0");
-
-        player2 = Manager.createRealizedPlayer(m2);
-
-        this.tbCamera.add(player.getVisualComponent());
-
         player.start();
         System.out.println("");
-
     }
+
 
     private void BotaoResetPan(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoResetPan
         System.out.println("*********************************Evento Reset PAN");
         arduino.resetAzimute();
     }//GEN-LAST:event_BotaoResetPan
-
-    private void TextoGrausPantilt(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextoGrausPantilt
-        // TODO add your handling code here:
-        //swing
-        //jTextField1.setText("");
-    }//GEN-LAST:event_TextoGrausPantilt
 
     private void CapturarImagem(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CapturarImagem
         if ("Capture".equals(evt.getActionCommand())) {
@@ -384,6 +343,7 @@ public class EstacaoForm extends javax.swing.JFrame {
         String graus = String.valueOf(jTextField1.getText());
         arduino.calculoAzimute(jButtonPan, graus);
         jTextArea1.setText("Azimuth Angle = " + graus);
+        jTextField1.setText("");
 
     }//GEN-LAST:event_BotaoAzimute
 
@@ -391,6 +351,7 @@ public class EstacaoForm extends javax.swing.JFrame {
         String graus = String.valueOf(jTextField1.getText());
         arduino.calculoElevacao(jButtonTilt, graus);
         jTextArea2.setText("Elevation Angle  = " + graus);
+        jTextField1.setText("");
     }//GEN-LAST:event_BotãoElevacao
 
     /**
