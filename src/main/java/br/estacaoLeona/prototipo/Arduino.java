@@ -96,17 +96,13 @@ public final class Arduino {
 
         try {
             if ("Tilt".equals(button.getActionCommand())) {
-                if (graus > 0 && graus <= 35) {
+                if (graus >= 1 && graus <= 35) {
                     if (valorAtual < graus) {
                         int c = graus - valorAtual;
                         up(c);
                         System.out.println("Resultado =" + c);
                     } else if (valorAtual > graus) {
                         int dif = valorAtual - graus;
-                        down(dif);
-                        System.out.println("Resultado =" + dif);
-                    } else if (graus == 0) {
-                        int dif = valorAtual - valorAtual;
                         down(dif);
                         System.out.println("Resultado =" + dif);
                     }
@@ -132,8 +128,8 @@ public final class Arduino {
                         System.out.println("Valor Atual = " + valorAtual);
                         int c = valorAtual - graus;
                         down(c);
-                        
                         System.out.println("Resultado =" + c);
+
                     } else if (valorAtual == 0) {
                         System.out.println("Elevação === 0");
                         System.out.println("Graus negativo" + graus);
@@ -141,6 +137,16 @@ public final class Arduino {
                         int dif = -graus;
                         down(dif);
                         System.out.println("Resultado =" + dif);
+                    }
+                } else if (graus == 0) {
+                    if (valorAtual < 0) {
+                        int conta = valorAtual - (valorAtual);
+                        up(conta);
+                        System.out.println("Resultado do negativo para 0 =" + conta);
+                    } else if (valorAtual > 0) {
+                        int conta = valorAtual - valorAtual;
+                        down(conta);
+                        System.out.println("Resultado do positivo para 0 =" + conta);
                     }
                 }
                 valorAtual = graus;
@@ -226,7 +232,7 @@ public final class Arduino {
     public int down(int graus) {
         if (graus <= 70) { //limite de elevação 35º
             if (graus < 10) {
-                String down = "!00" + graus + "D*";
+                down = "!00" + graus + "D*";
                 System.out.println("DOWN = " + down);
                 arduino.enviaDados(down);
             } else {
