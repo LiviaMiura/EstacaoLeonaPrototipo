@@ -261,6 +261,7 @@ public final class Arduino {
     public int cameraOFF() {
         System.out.println("camera off");
         arduino.enviaDados("!111F*");//camera ON
+        posiçãoRepouso(); // caixa de proteção ficar -35° para proteção das lentes da luz do sol
         return 1;
     }
 
@@ -286,6 +287,18 @@ public final class Arduino {
         String reset = "!035U*";
         arduino.enviaDados(reset);
         System.out.println("Reset elevação para 0º = " + reset);
+        return 1;
+    }
+    
+    /*Metodo repouso para caixa de proteção das câmeras ficar -35° 
+     *para proteção das lentes 
+     *da luz do sol
+     */
+
+    public int posiçãoRepouso() {
+        System.out.println("Posição de .-35º para ficar duante o dia.");
+        down = "!070D*";
+        System.out.println("Reset elevação para tudo para baixo = " + down);
         return 1;
     }
 
