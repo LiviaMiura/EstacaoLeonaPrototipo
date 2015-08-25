@@ -59,7 +59,7 @@ public final class Arduino {
         int graus = Integer.parseInt(grausDigitado);
 
         try {
-            if ("Pan".equals(button.getActionCommand())) {
+            if ("Azimuth".equals(button.getActionCommand())) {
                 System.out.println("***************Calculo**AZIMUTE**********");
                 if (graus >= 0 && graus <= 350) {
 
@@ -95,7 +95,7 @@ public final class Arduino {
         int graus = Integer.parseInt(grausDigitado);
 
         try {
-            if ("Tilt".equals(button.getActionCommand())) {
+            if ("Elevation".equals(button.getActionCommand())) {
                 if (graus >= 1 && graus <= 35) {
                     if (valorAtual < graus) {
                         int c = graus - valorAtual;
@@ -284,7 +284,7 @@ public final class Arduino {
         down = "!070D*";
         System.out.println("Reset elevação para tudo para baixo = " + down);
         arduino.enviaDados(down);
-        String reset = "!035U*";
+        String reset = "!032U*";
         arduino.enviaDados(reset);
         System.out.println("Reset elevação para 0º = " + reset);
         return 1;
@@ -298,6 +298,7 @@ public final class Arduino {
     public int posiçãoRepouso() {
         System.out.println("Posição de .-35º para ficar duante o dia.");
         down = "!070D*";
+        arduino.enviaDados(down);
         System.out.println("Reset elevação para tudo para baixo = " + down);
         return 1;
     }
