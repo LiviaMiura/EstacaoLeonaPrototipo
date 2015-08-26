@@ -34,6 +34,7 @@ class Capturar extends Thread {
     String nfile;
     BufferedImage bi;
     LocalDateTime agora, timeDir;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy   HH:mm:ss:SSS");
 
     Capturar(EstacaoForm estacaoForm) {
 
@@ -82,7 +83,7 @@ class Capturar extends Thread {
                 imagem = "[Evento" + i + "]" + localDate() + " " + hora.format(date1);
                 System.out.println("Evento " + i + "]" + localDate() + " " + hora.format(date1));
                 fd.setDirectory(diretorio + observacao);
-
+     EstacaoForm.jTextArea3.append("Evento " + i + "]     " + sdf.format(new Date())+"\n");
                 fd.setFile(imagem);
 
                 if (fd.getFile() != null) {
