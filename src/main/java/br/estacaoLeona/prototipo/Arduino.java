@@ -6,6 +6,8 @@
 package br.estacaoLeona.prototipo;
 
 import gnu.io.CommPortIdentifier;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import javax.swing.JButton;
 
@@ -19,6 +21,7 @@ public final class Arduino {
     private String portaCOM;
     private int AzGraus, ElGraus, valorAtual;
     private String left, right, down, up;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy   HH:mm:ss:SSS");
 
     /**
      * Construtor da classe Arduino
@@ -96,70 +99,63 @@ public final class Arduino {
 
         try {
             if ("Elevation".equals(button.getActionCommand())) {
-                if (graus >= 1 && graus <= 35) {
+                if (graus >= 1 && graus <= 36) {
+                    System.out.println("**********Valores Positivos**********");
                     if (valorAtual < graus) {
+
                         int c = graus - valorAtual;
                         up(c);
-                        System.out.println("Resultado =" + c);
+                        System.out.println("1 Calculo: " + graus + " - " + valorAtual + " = " + c);
                     } else if (valorAtual > graus) {
                         int dif = valorAtual - graus;
                         down(dif);
-                        System.out.println("Resultado =" + dif);
+                        System.out.println("1.0 Calculo: " + valorAtual + " - " + graus + "= " + dif);
                     }
-                } else if (graus <= 0 && graus >= -35) {
-                    if (valorAtual == graus) {
-                        System.out.println("********valorAtualfor========*NUMERO*NEGATIVO*********");
-                        System.out.println("Graus negativo" + graus);
-                        System.out.println("Valor Atual = " + valorAtual);
-                        int c = valorAtual;
-                        System.out.println("Resultado =" + c);
+                    valorAtual = graus;
+                    System.out.println("1 Valor salvo: " + valorAtual);
+                    System.out.println("****************************");
 
-                    } else if (valorAtual < graus) {
-                        System.out.println("********valorAtualfor<<<<<<NUMERO*NEGATIVO*********");
-                        System.out.println("Graus negativo" + graus);
-                        System.out.println("Valor Atual = " + valorAtual);
+                }
+                if (graus <= -1 && graus >= -36) {
+                    System.out.println("**********Valores Negativos**********");
+                    if (valorAtual < graus) {
+
                         int c = graus - valorAtual;
                         up(c);
-                        System.out.println("Resultado =" + c);
-
-                    } else if (valorAtual > graus && valorAtual != 0) {
-                        System.out.println("********valorAtualfor>>>>*NUMERO*NEGATIVO*********");
-                        System.out.println("Graus negativo" + graus);
-                        System.out.println("Valor Atual = " + valorAtual);
-                        int c = valorAtual - graus;
-                        down(c);
-                        System.out.println("Resultado =" + c);
-
-                    } else if (valorAtual == 0) {
-                        System.out.println("Elevação === 0");
-                        System.out.println("Graus negativo" + graus);
-                        System.out.println("Valor Atual = " + valorAtual);
-                        int dif = -graus;
+                        System.out.println("3 Calculo: " + graus + " - " + valorAtual + " = " + c);
+                    } else if (valorAtual > graus) {
+                        int dif = valorAtual - graus;
                         down(dif);
-                        System.out.println("Resultado =" + dif);
+                        System.out.println("3.0 Calculo: " + valorAtual + " - " + graus + "= " + dif);
                     }
+                    valorAtual = graus;
+                    System.out.println("3 Valor salvo: " + valorAtual);
+                    System.out.println("****************************");
                 } else if (graus == 0) {
-                    if (valorAtual < 0) {
-                        int conta = valorAtual - (valorAtual);
-                        up(conta);
-                        System.out.println("Resultado do negativo para 0 =" + conta);
-                    } else if (valorAtual > 0) {
-                        int conta = valorAtual - valorAtual;
-                        down(conta);
-                        System.out.println("Resultado do positivo para 0 =" + conta);
+                    if (valorAtual < graus) {
+                        int c = -valorAtual;
+                        System.out.println("c antes do up = " + c);
+                        up(c);
+                        System.out.println(" 2.0 valor que estava armazenado era....entao " + valorAtual + "- ( " + valorAtual + " ) =" + c);
+                    } else if (valorAtual > graus) {
+                        int dif = valorAtual - graus;
+                        down(dif);
+                        System.out.println(" 2.1 valor que estava armazenado era....entao " + valorAtual + "- ( " + valorAtual + " )=" + dif);
                     }
+                    valorAtual = graus;
+                    System.out.println("2 Sai do IF valor atual deveria ser: " + valorAtual);
                 }
-                valorAtual = graus;
+
             }
         } catch (Exception e) {
             System.out.println("*****Erro ao calcular tilt -35º 0º 35º*****");
         }
         return 1;
     }
+
     /*
      *Move para Esquerda
      */
-
     public int left(int graus) {
         if (graus < 350) { //limite de elevação 350º
             if (graus < 10) {
@@ -281,20 +277,22 @@ public final class Arduino {
 
     public int resetElevacao() {
         System.out.println("Reset elevação a novo Calculo");
-        down = "!070D*";
+        down = "!072D*";
         System.out.println("Reset elevação para tudo para baixo = " + down);
         arduino.enviaDados(down);
         String reset = "!032U*";
         arduino.enviaDados(reset);
         System.out.println("Reset elevação para 0º = " + reset);
+        valorAtual = 0;
         return 1;
     }
-    
+
+   
+
     /*Metodo repouso para caixa de proteção das câmeras ficar -35° 
      *para proteção das lentes 
      *da luz do sol
      */
-
     public int posiçãoRepouso() {
         System.out.println("Posição de .-35º para ficar duante o dia.");
         down = "!070D*";
