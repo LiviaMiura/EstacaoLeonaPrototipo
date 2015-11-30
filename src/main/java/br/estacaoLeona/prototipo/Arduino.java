@@ -12,7 +12,7 @@ import java.util.Enumeration;
 import javax.swing.JButton;
 
 /**
- * @author klauder
+ * @author livia
  */
 public final class Arduino {
 
